@@ -18,8 +18,8 @@ VolcanoPlot1<-function(){
   volcano[which(-log10(volcano$padj) > -log10(adjust.pvalue) & volcano$log2FoldChange <= -log2(fold.change)), "Group"]=rep(1)  # down-regulated
   volcano[which(-log10(volcano$padj) > -log10(adjust.pvalue) & volcano$log2FoldChange >= log2(fold.change)), "Group"]=rep(2)  # up-regulated
   volcano[which(-log10(volcano$padj) <= -log10(adjust.pvalue) | (-log10(volcano$padj) > -log10(adjust.pvalue) & abs(volcano$log2FoldChange) < log2(fold.change))), "Group"]=rep(3)  # non-significant
-  volcano$Group<-as.factor(volcano$Group)
-  volcano.label<-volcano[which(volcano$Group!=3),]  # groups to show gene labels
+  volcano$Group=as.factor(volcano$Group)
+  volcano.label=volcano[which(volcano$Group!=3),]  # groups to show gene labels
 
   # plot
   volcano.p=ggplot(volcano, aes(log2FoldChange, -log10(padj)))+geom_point(aes(color=Group), alpha=0.7)+scale_color_manual(name="Significance", breaks=c("2", "1", "3"), labels=c("Up", "Down", "Non"), values=c("1"="royalblue3", "2"="firebrick3", "3"="grey55"))+geom_text_repel(data=volcano.label, aes(label=rownames(volcano.label)), size=2, color="black")
