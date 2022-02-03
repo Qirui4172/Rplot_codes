@@ -25,6 +25,7 @@ VolcanoPlot1<-function(){
   volcano.p=ggplot(volcano, aes(log2FoldChange, -log10(padj)))+geom_point(aes(color=Group), alpha=0.7)+scale_color_manual(name="Significance", breaks=c("2", "1", "3"), labels=c("Up", "Down", "Non"), values=c("1"="royalblue3", "2"="firebrick3", "3"="grey55"))+geom_text_repel(data=volcano.label, aes(label=rownames(volcano.label)), size=2, color="black")
 
   volcano.p=volcano.p+labs(title={volcano.title}, x="log2foldchange", y="-log10(padj)")+geom_hline(yintercept=-log10(adjust.pvalue), linetype=2, color="black", size=0.3)+geom_vline(xintercept=c(-log2(fold.change), log2(fold.change)), linetype=2, color="black", size=0.3)+theme_bw()+theme(text=element_text(size=12, color="black"), panel.grid=element_blank(), panel.border=element_rect(size=0.5), axis.line=element_line(color="black", size=0.2), axis.ticks=element_line(color="black"), axis.text=element_text(color="black"))
+
   volcano.p
 }
 VolcanoPlot1(res, "treatment vs control")
@@ -32,7 +33,7 @@ VolcanoPlot1(res, "treatment vs control")
 
 #======================================================================================================
 # Detailed version
-VolcanoPlot2<-function(res, x.min, x.max, y.max, volcano.title, coord.ratio){
+VolcanoPlot2<-function(res, x.min, x.max, y.max, volcano.title){
   volcano=as.data.frame(res)
   volcano$padj=ifelse(is.na(volcano$padj), 1, volcano$padj)
   volcano$Group=rep(0)
